@@ -1,0 +1,61 @@
+Name: Victor R. Fu
+Student ID: 5307378991
+
+What I have done in this assignment. 
+
+In this assignment we have created a computational system where the load of the computation is split across three backend servers. The servers that do the bulk of the computation is connected to a client indirectly by using a intermediate server in between. This intermediate server aggregates the outputs of the backend servers and communicates the results with the client through TCP. The intermediate server and backend server communicate through UDP.
+
+In this project, I have developed a code that does exactly as described above. I developed software to establish TCP and UDP connections between servers. I also wrote code to process data according to the project guidelines. 
+
+What are my code files and what do each of them do? 
+
+client.cpp
+
+This code sets up the actual initiation of the software and also established a TCP connection to the AWS. 
+
+aws.cpp
+
+This code sets up both the TCP to the client as well as UDP sockets for the backend server. In addition, it also aggregates the backend servers calculations and produces the final result to communicate to the client. 
+
+serverA.cpp
+
+This is one of the back end servers. It communicates with the aws through UDP. It does the majority of the number crunching. All the servers are essentially identical except for names and port numbers. 
+
+serverB.cpp
+
+This is one of the back end servers. It communicates with the aws through UDP. It does the majority of the number crunching. All the servers are essentially identical except for names and port numbers. 
+
+serverC.cpp
+
+This is one of the back end servers. It communicates with the aws through UDP. It does the majority of the number crunching. All the servers are essentially identical except for names and port numbers. 
+
+What the TA should do the run your programs. 
+
+1. First open a single terminal window and in the project folder execute a -YÅ¥make allÅ°.
+2. Wait for the code to compile. Upon compiling, open up 4 more terminal windows. 
+3. In each of the 4 terminal windows initiate each server. Do this by typing Å¥make serverAÅ° , Å¥make serverBÅ°, Å¥make serverCÅ°, Å¥make wasÅ°.
+4. Finally open one last terminal window. In this window you will execute client.cpp by using the following syntax: 
+Å¥./client <function name>Å°
+
+What is the format of all the text exchanged?
+
+Between the client and AWS, the reduction type name is sent as a char array. The numbers are also sent one by one in char arrays. 
+
+Between the AWS and backend servers, the reduction type is also sent as a char array. The numbers are divided here into thirds and transferred to the backend servers also as char arrays. It is only then when the numbers reach the backend server are they translated to integers. 
+
+After processing the numbers, the backend severs transfer a char array package with the server name as the first character and then the numbers as chars behind it. 
+
+The AWS sends the client a char array with the solution. 
+
+Idiosyncrasy?
+
+Through my testing there has not been major idiosyncrasy, although I do admit that my testing has not been excessively thorough. There is one bit that frustrated me while developing the code however that may be a talking point. Without using the Å¥usleepÅ° function between sending the packets of numbers, the backend servers would only ever receive zeros. After much debugging, I added Å¥usleep(100)Å° between every number that is transferred to the back end to fix this. Because of this, the run time may be a little oddly long. In development I found no way around this. 
+
+Reused Code:
+
+BeejÜ¢s guide to socket programming is incredibly useful. Admittedly, a large portion of the code that is used to establish TCP and UDP connections is almost directly copied from his resources. A large amount of my code is heavily influenced by his code. A lot of the communications of numbers and reduction names in using recv and sendis very similar to his style of coding. I have commented areas where I used his reference. 
+
+The servers A, B, and C are identical pieces of code except for their respective names and port numbers. 
+
+
+
